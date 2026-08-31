@@ -20,7 +20,25 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <main class="page" id="page">
+    <section id="bootOverlay" class="boot-overlay" aria-label="Site boot animation">
+      <div class="boot-window">
+        <header class="boot-window-bar">
+          <div class="boot-lights" aria-hidden="true">
+            <span class="boot-light red"></span>
+            <span class="boot-light yellow"></span>
+            <span class="boot-light green"></span>
+          </div>
+          <span class="boot-title">epix-profile-boot</span>
+        </header>
+        <div id="bootTerminal" class="boot-terminal">
+          <div id="bootLog"></div>
+          <p id="bootStatus" class="boot-status">Booting profile shell... 0%</p>
+          <p id="bootPrompt" class="boot-prompt hidden">Press Enter to continue</p>
+        </div>
+      </div>
+    </section>
+
+    <main class="page boot-hidden" id="page">
       <section class="card parallax" data-depth="0.06">
         <header class="hero">
           <div class="avatar-wrap">

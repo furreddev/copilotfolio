@@ -16,6 +16,11 @@ const CONFIG = {
 
 const page = document.getElementById("page");
 const parallaxItems = document.querySelectorAll(".parallax");
+const bootOverlay = document.getElementById("bootOverlay");
+const bootTerminal = document.getElementById("bootTerminal");
+const bootLog = document.getElementById("bootLog");
+const bootStatus = document.getElementById("bootStatus");
+const bootPrompt = document.getElementById("bootPrompt");
 const linksRoot = document.getElementById("socialLinks");
 const liquidSlider = document.getElementById("liquidSlider");
 const secretHint = document.getElementById("secretHint");
@@ -40,6 +45,20 @@ const inspectorOutput = document.getElementById("inspectorOutput");
 
 let latestDiscordData = null;
 let inspectorRun = 0;
+let bootAwaitingEnter = false;
+
+const BOOT_TOTAL_DURATION_MS = 10000;
+const BOOT_COMMANDS = [
+  "init --profile epix.main",
+  "load_kernel --theme orange-purple",
+  "mount /presence/discord",
+  "sync --social-links --emoji",
+  "attach --music-driver /music",
+  "calibrate --tilt-engine",
+  "open --inspector-panel",
+  "verify --identity Epix",
+  "start --copilotfolio"
+];
 
 displayName.textContent = CONFIG.displayName;
 
@@ -86,6 +105,38 @@ function setupLinks() {
 }
 
 setupLinks();
+
+function unlockMainSite() {
+  bootAwaitingEnter = false;
+  page.classList.remove("boot-hidden");
+  bootOverlay.classList.add("done");
+  setTimeout(() => {
+    bootOverlay.remove();
+  }, 360);
+}
+
+async function runMainBoot() {
+  const stepDelay = Math.floor(BOOT_TOTAL_DURATION_MS / BOOT_COMMANDS.length);
+
+  for (let i = 0; i < BOOT_COMMANDS.length; i += 1) {
+    const line = document.createElement("p");
+    line.className = "boot-log-line";
+    line.textContent = BOOT_COMMANDS[i];
+    bootLog.appendChild(line);
+
+    const percent = Math.round(((i + 1) / BOOT_COMMANDS.length) * 100);
+    bootStatus.textContent = `Booting profile shell... ${percent}%`;
+    bootTerminal.scrollTop = bootTerminal.scrollHeight;
+    await sleep(stepDelay);
+  }
+
+  bootStatus.textContent = "Boot complete. Awaiting input.";
+  bootPrompt.classList.remove("hidden");
+  bootTerminal.scrollTop = bootTerminal.scrollHeight;
+  bootAwaitingEnter = true;
+}
+
+runMainBoot();
 
 page.addEventListener("mousemove", (event) => {
   const x = event.clientX / window.innerWidth - 0.5;
@@ -271,6 +322,11 @@ let entered = [];
 let sequenceStart = null;
 
 window.addEventListener("keydown", (event) => {
+  if (bootAwaitingEnter && event.key === "Enter") {
+    unlockMainSite();
+    return;
+  }
+
   const key = event.key.toUpperCase();
   if (!secretSequence.includes(key)) return;
 

@@ -26,6 +26,108 @@ body {
   position: relative;
 }
 
+.boot-hidden {
+  visibility: hidden;
+}
+
+.boot-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: #09060f;
+}
+
+.boot-overlay.done {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 320ms ease;
+}
+
+.boot-window {
+  width: min(960px, 95vw);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  background: linear-gradient(145deg, rgba(57, 26, 87, 0.52), rgba(82, 35, 119, 0.62));
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+}
+
+.boot-window-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.boot-lights {
+  display: flex;
+  gap: 0.44rem;
+}
+
+.boot-light {
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 50%;
+}
+
+.boot-light.red {
+  background: #ff5f56;
+}
+
+.boot-light.yellow {
+  background: #ffbd2e;
+}
+
+.boot-light.green {
+  background: #27c93f;
+}
+
+.boot-title {
+  font-size: 0.84rem;
+  color: var(--orange);
+}
+
+.boot-terminal {
+  padding: 1rem;
+  min-height: min(70vh, 520px);
+  max-height: min(70vh, 520px);
+  overflow: auto;
+  line-height: 1.4;
+}
+
+.boot-log-line,
+.boot-status,
+.boot-prompt {
+  margin: 0 0 0.35rem;
+  color: var(--orange-soft);
+  white-space: pre-wrap;
+}
+
+.boot-log-line::before,
+.boot-status::before,
+.boot-prompt::before {
+  content: "visitor@epix~$ ";
+  color: var(--orange);
+}
+
+.boot-prompt {
+  color: #ffd9a5;
+  animation: boot-pulse 800ms steps(1, end) infinite;
+}
+
+@keyframes boot-pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+
 .page {
   position: relative;
   min-height: 100vh;
@@ -293,6 +395,10 @@ body {
 }
 
 @media (max-width: 700px) {
+  .boot-terminal {
+    min-height: 68vh;
+  }
+
   .page {
     padding: 0.9rem;
   }
