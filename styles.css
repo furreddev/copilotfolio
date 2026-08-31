@@ -118,7 +118,7 @@ body {
 }
 
 .terminal-line::before {
-  content: "user@epix~$ ";
+  content: "visitor@epix~$ ";
   color: var(--orange-soft);
   opacity: 0.9;
 }

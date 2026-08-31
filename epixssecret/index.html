@@ -3,34 +3,208 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Epix Secret</title>
+    <title>Epix Secret Boot</title>
     <style>
+      :root {
+        --orange: #ff8c00;
+        --orange-soft: #ffaf47;
+        --bg: #0b0712;
+        --glass: rgba(57, 26, 87, 0.52);
+        --glass-strong: rgba(82, 35, 119, 0.62);
+        --border: rgba(255, 255, 255, 0.2);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
       body {
         margin: 0;
         min-height: 100vh;
+        font-family: "JetBrains Mono", monospace;
+        color: var(--orange-soft);
+        background:
+          radial-gradient(circle at 18% 25%, rgba(145, 72, 255, 0.2), transparent 32%),
+          radial-gradient(circle at 82% 70%, rgba(255, 141, 0, 0.2), transparent 30%),
+          var(--bg);
         display: grid;
         place-items: center;
-        font-family: "JetBrains Mono", monospace;
-        background: radial-gradient(circle at center, #2f1550, #0f091b 60%);
-        color: #ff9d29;
+        padding: 1rem;
       }
-      .panel {
-        padding: 2rem;
-        border-radius: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(14px);
+
+      .window {
+        width: min(960px, 95vw);
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+        background: linear-gradient(145deg, var(--glass), var(--glass-strong));
+        backdrop-filter: blur(18px) saturate(140%);
+        -webkit-backdrop-filter: blur(18px) saturate(140%);
       }
-      a {
-        color: #ffbd6c;
+
+      .window-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.6rem 0.9rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .lights {
+        display: flex;
+        gap: 0.44rem;
+      }
+
+      .light {
+        width: 0.72rem;
+        height: 0.72rem;
+        border-radius: 50%;
+      }
+
+      .light.red {
+        background: #ff5f56;
+      }
+
+      .light.yellow {
+        background: #ffbd2e;
+      }
+
+      .light.green {
+        background: #27c93f;
+      }
+
+      .title {
+        font-size: 0.84rem;
+        color: var(--orange);
+      }
+
+      .terminal {
+        padding: 1rem;
+        min-height: min(72vh, 620px);
+        max-height: min(72vh, 620px);
+        overflow: auto;
+        line-height: 1.45;
+      }
+
+      .line {
+        margin: 0 0 0.32rem;
+        color: var(--orange-soft);
+        white-space: pre-wrap;
+      }
+
+      .line::before {
+        content: "visitor@epix~$ ";
+        color: var(--orange);
+      }
+
+      .status {
+        margin-top: 0.6rem;
+        color: #ffc98b;
+      }
+
+      .secret-panel {
+        margin-top: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 12px;
+        padding: 0.9rem;
+        background: rgba(17, 8, 25, 0.48);
+      }
+
+      .secret-panel a {
+        color: #ffd9a5;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      @media (max-width: 700px) {
+        .terminal {
+          min-height: 70vh;
+        }
       }
     </style>
   </head>
   <body>
-    <section class="panel">
-      <h1>Welcome to Epix's secret page ✨</h1>
-      <p>You unlocked the hidden route with E + P + I + X.</p>
-      <p><a href="/">Go back</a></p>
+    <section class="window" aria-label="Secret boot terminal">
+      <header class="window-bar">
+        <div class="lights" aria-hidden="true">
+          <span class="light red"></span>
+          <span class="light yellow"></span>
+          <span class="light green"></span>
+        </div>
+        <span class="title">epix-secret — visitor shell</span>
+        <span></span>
+      </header>
+
+      <div class="terminal" id="terminal">
+        <div id="bootLog"></div>
+        <p id="bootStatus" class="status">Booting secure shell... 0%</p>
+        <section id="secretPanel" class="secret-panel hidden">
+          <h1>Welcome to Epix's secret page ✨</h1>
+          <p>Boot sequence complete. You unlocked the hidden route with E + P + I + X.</p>
+          <p><a href="/">Go back</a></p>
+        </section>
+      </div>
     </section>
+
+    <script>
+      const TOTAL_DURATION_MS = 40000;
+      const bootLog = document.getElementById("bootLog");
+      const bootStatus = document.getElementById("bootStatus");
+      const secretPanel = document.getElementById("secretPanel");
+      const terminal = document.getElementById("terminal");
+
+      const commands = [
+        "init --profile epix.secret",
+        "load_kernel --mode stardust",
+        "mount /vault/cosmos",
+        "verify --lanyard-presence 1279029563846033414",
+        "hydrate --glass-ui liquid",
+        "sync --avatar-decoration",
+        "scan --social-links --strict",
+        "attach --music-driver /music",
+        "warmup --parallax-engine",
+        "compile --theme orange-purple",
+        "link --terminal-prompt visitor@epix~$",
+        "run --gateway-check",
+        "echo " + JSON.stringify("moonlight handshake ok"),
+        "authorize --secret-route /epixssecret",
+        "cache --discord-assets",
+        "preload --glyph-icons",
+        "balance --shader-noise",
+        "launch --spectral-overlay",
+        "finalize --vault-lock",
+        "start --epix.secret"
+      ];
+
+      const stepDelay = Math.floor(TOTAL_DURATION_MS / commands.length);
+
+      const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+      async function runBoot() {
+        for (let i = 0; i < commands.length; i += 1) {
+          const line = document.createElement("p");
+          line.className = "line";
+          line.textContent = commands[i];
+          bootLog.appendChild(line);
+
+          const percent = Math.round(((i + 1) / commands.length) * 100);
+          bootStatus.textContent = `Booting secure shell... ${percent}%`;
+          terminal.scrollTop = terminal.scrollHeight;
+
+          await sleep(stepDelay);
+        }
+
+        bootStatus.textContent = "Boot sequence complete. Access granted.";
+        secretPanel.classList.remove("hidden");
+        terminal.scrollTop = terminal.scrollHeight;
+      }
+
+      runBoot();
+    </script>
   </body>
 </html>
