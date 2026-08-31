@@ -1,4 +1,4 @@
-import { MUSIC_TRACK } from "/music/track-config.js";
+import { MUSIC_TRACK } from "./music/track-config.js";
 
 const CONFIG = {
   displayName: "Epix",
@@ -37,7 +37,7 @@ const discordProfileLink = document.getElementById("discordProfileLink");
 displayName.textContent = CONFIG.displayName;
 
 function resolveTrackUrl(filename) {
-  return `/music/${filename
+  return `./music/${filename
     .split("/")
     .map((part) => encodeURIComponent(part))
     .join("/")}`;
