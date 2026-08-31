@@ -1,7 +1,8 @@
+import { MUSIC_TRACK } from "/music/track-config.js";
+
 const CONFIG = {
   displayName: "Epix",
   discordUserId: "1279029563846033414",
-  musicUrl: "https://files.catbox.moe/yg5n4h.mp3",
   socialLinks: [
     { icon: "fa-brands fa-youtube", label: "YouTube", href: "https://youtube.com/furreddev" },
     { icon: "fa-brands fa-x-twitter", label: "X", href: "https://x.com/epixonx" },
@@ -20,6 +21,7 @@ const liquidSlider = document.getElementById("liquidSlider");
 const secretHint = document.getElementById("secretHint");
 const audio = document.getElementById("audio");
 const musicToggle = document.getElementById("musicToggle");
+const trackTitle = document.getElementById("trackTitle");
 const trackTime = document.getElementById("trackTime");
 
 const statusText = document.getElementById("statusText");
@@ -33,7 +35,22 @@ const activityText = document.getElementById("activityText");
 const discordProfileLink = document.getElementById("discordProfileLink");
 
 displayName.textContent = CONFIG.displayName;
-audio.src = CONFIG.musicUrl;
+
+function resolveTrackUrl(filename) {
+  return `/music/${filename
+    .split("/")
+    .map((part) => encodeURIComponent(part))
+    .join("/")}`;
+}
+
+if (MUSIC_TRACK.filename) {
+  audio.src = resolveTrackUrl(MUSIC_TRACK.filename);
+  trackTitle.textContent = `Now playing: ${MUSIC_TRACK.displayName || MUSIC_TRACK.filename}`;
+} else {
+  trackTitle.textContent = "No track configured";
+  musicToggle.disabled = true;
+  musicToggle.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+}
 
 function setupLinks() {
   CONFIG.socialLinks.forEach((link) => {

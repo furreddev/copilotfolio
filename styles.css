@@ -1,6 +1,7 @@
 :root {
   --orange: #ff8c00;
   --orange-soft: #ffaf47;
+  --orange-bright: #ffb257;
   --ink: #100913;
   --glass: rgba(57, 26, 87, 0.42);
   --glass-strong: rgba(82, 35, 119, 0.56);
@@ -61,6 +62,7 @@ body {
   background: linear-gradient(145deg, var(--glass), var(--glass-strong));
   border-radius: 28px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 20px 45px rgba(0, 0, 0, 0.45);
+  color: var(--orange-bright);
 }
 
 .card {
@@ -101,6 +103,8 @@ body {
   margin: 0;
   font-size: clamp(2rem, 3vw, 2.55rem);
   line-height: 1.1;
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 18px rgba(255, 140, 0, 0.35);
 }
 
 .subtitle,
@@ -108,12 +112,23 @@ body {
   margin: 0.25rem 0;
 }
 
+.terminal-line {
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+}
+
+.terminal-line::before {
+  content: "user@epix~$ ";
+  color: var(--orange-soft);
+  opacity: 0.9;
+}
+
 .live-panel {
   margin-top: 1rem;
   padding: 1rem;
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(22, 10, 32, 0.35);
+  background: linear-gradient(145deg, rgba(22, 10, 32, 0.45), rgba(72, 30, 94, 0.28));
 }
 
 .status-pill {
@@ -146,6 +161,7 @@ body {
   padding: 0.4rem 0.75rem;
   border: 1px solid rgba(255, 255, 255, 0.22);
   background: rgba(255, 255, 255, 0.08);
+  font-weight: 600;
 }
 
 .links {
@@ -169,6 +185,7 @@ body {
   min-width: 2.5rem;
   backdrop-filter: blur(8px);
   z-index: 1;
+  background: rgba(28, 14, 37, 0.45);
 }
 
 .social-link i {
@@ -194,6 +211,7 @@ body {
 .secret {
   margin-top: 1rem;
   font-size: 0.92rem;
+  color: var(--orange-bright);
 }
 
 .secret a {
@@ -205,6 +223,7 @@ body {
   align-items: center;
   gap: 1rem;
   padding: 1rem 1.2rem;
+  border-color: rgba(255, 140, 0, 0.28);
 }
 
 .icon-btn {
