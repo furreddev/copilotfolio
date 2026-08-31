@@ -1,13 +1,15 @@
 const CONFIG = {
   displayName: "Epix",
-  discordUserId: "PUT_YOUR_DISCORD_USER_ID_HERE",
+  discordUserId: "1279029563846033414",
   musicUrl: "https://files.catbox.moe/yg5n4h.mp3",
   socialLinks: [
-    { icon: "fa-brands fa-x-twitter", label: "X", href: "https://x.com" },
-    { icon: "fa-brands fa-github", label: "GitHub", href: "https://github.com" },
-    { icon: "fa-brands fa-discord", label: "Discord", href: "https://discord.com" },
-    { icon: "fa-brands fa-youtube", label: "YouTube", href: "https://youtube.com" },
-    { icon: "fa-solid fa-envelope", label: "Email", href: "mailto:hello@example.com" }
+    { icon: "fa-brands fa-youtube", label: "YouTube", href: "https://youtube.com/furreddev" },
+    { icon: "fa-brands fa-x-twitter", label: "X", href: "https://x.com/epixonx" },
+    { icon: "fa-solid fa-gamepad", label: "Roblox", href: "https://roblox.com/users/2201444586/profile" },
+    { icon: "fa-brands fa-github", label: "GitHub", href: "https://github.com/furreddev" },
+    { icon: "fa-brands fa-telegram", label: "Telegram", href: "https://t.me/purringcat" },
+    { icon: "fa-solid fa-envelope", label: "Email", href: "mailto:yay@sillycat.tech" },
+    { icon: "fa-brands fa-instagram", label: "Instagram", href: "https://instagram.com/furreddev" }
   ]
 };
 
