@@ -188,8 +188,9 @@ body {
   background: rgba(28, 14, 37, 0.45);
 }
 
-.social-link i {
+.social-link-icon {
   font-size: 1.1rem;
+  line-height: 1;
 }
 
 .liquid-slider {

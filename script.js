@@ -4,13 +4,13 @@ const CONFIG = {
   displayName: "Epix",
   discordUserId: "1279029563846033414",
   socialLinks: [
-    { icon: "fa-brands fa-youtube", label: "YouTube", href: "https://youtube.com/furreddev" },
-    { icon: "fa-brands fa-x-twitter", label: "X", href: "https://x.com/epixonx" },
-    { icon: "fa-solid fa-gamepad", label: "Roblox", href: "https://roblox.com/users/2201444586/profile" },
-    { icon: "fa-brands fa-github", label: "GitHub", href: "https://github.com/furreddev" },
-    { icon: "fa-brands fa-telegram", label: "Telegram", href: "https://t.me/purringcat" },
-    { icon: "fa-solid fa-envelope", label: "Email", href: "mailto:yay@sillycat.tech" },
-    { icon: "fa-brands fa-instagram", label: "Instagram", href: "https://instagram.com/furreddev" }
+    { emoji: "▶️", label: "YouTube", href: "https://youtube.com/furreddev" },
+    { emoji: "✖️", label: "X", href: "https://x.com/epixonx" },
+    { emoji: "🎮", label: "Roblox", href: "https://roblox.com/users/2201444586/profile" },
+    { emoji: "🐙", label: "GitHub", href: "https://github.com/furreddev" },
+    { emoji: "✈️", label: "Telegram", href: "https://t.me/purringcat" },
+    { emoji: "📧", label: "Email", href: "mailto:yay@sillycat.tech" },
+    { emoji: "📸", label: "Instagram", href: "https://instagram.com/furreddev" }
   ]
 };
 
@@ -60,7 +60,7 @@ function setupLinks() {
     a.rel = "noreferrer";
     a.className = "social-link";
     a.ariaLabel = link.label;
-    a.innerHTML = `<i class="${link.icon}" aria-hidden="true"></i>`;
+    a.innerHTML = `<span class="social-link-icon" aria-hidden="true">${link.emoji || "🔗"}</span>`;
 
     a.addEventListener("mouseenter", () => {
       const { offsetLeft, offsetTop, offsetWidth, offsetHeight } = a;
