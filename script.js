@@ -91,20 +91,24 @@ function setupLinks() {
     a.ariaLabel = link.label;
     a.innerHTML = `<span class="social-link-icon" aria-hidden="true">${link.emoji || "🔗"}</span>`;
 
-    a.addEventListener("mouseenter", () => {
-      const { offsetLeft, offsetTop, offsetWidth, offsetHeight } = a;
-      liquidSlider.style.opacity = "1";
-      liquidSlider.style.transform = `translate(${offsetLeft}px, ${offsetTop}px)`;
-      liquidSlider.style.width = `${offsetWidth}px`;
-      liquidSlider.style.height = `${offsetHeight}px`;
-    });
+    if (!isTouchDevice) {
+      a.addEventListener("mouseenter", () => {
+        const { offsetLeft, offsetTop, offsetWidth, offsetHeight } = a;
+        liquidSlider.style.opacity = "1";
+        liquidSlider.style.transform = `translate(${offsetLeft}px, ${offsetTop}px)`;
+        liquidSlider.style.width = `${offsetWidth}px`;
+        liquidSlider.style.height = `${offsetHeight}px`;
+      });
+    }
 
     linksRoot.appendChild(a);
   });
 
-  linksRoot.addEventListener("mouseleave", () => {
-    liquidSlider.style.opacity = "0";
-  });
+  if (!isTouchDevice) {
+    linksRoot.addEventListener("mouseleave", () => {
+      liquidSlider.style.opacity = "0";
+    });
+  }
 }
 
 setupLinks();
@@ -143,23 +147,25 @@ async function runMainBoot() {
 
 runMainBoot();
 
-page.addEventListener("mousemove", (event) => {
-  const x = event.clientX / window.innerWidth - 0.5;
-  const y = event.clientY / window.innerHeight - 0.5;
+if (!isTouchDevice) {
+  page.addEventListener("mousemove", (event) => {
+    const x = event.clientX / window.innerWidth - 0.5;
+    const y = event.clientY / window.innerHeight - 0.5;
 
-  parallaxItems.forEach((element) => {
-    const depth = Number(element.dataset.depth || 0.08);
-    const rotateX = -y * depth * 30;
-    const rotateY = x * depth * 30;
-    element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    parallaxItems.forEach((element) => {
+      const depth = Number(element.dataset.depth || 0.08);
+      const rotateX = -y * depth * 30;
+      const rotateY = x * depth * 30;
+      element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
   });
-});
 
-page.addEventListener("mouseleave", () => {
-  parallaxItems.forEach((element) => {
-    element.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg)";
+  page.addEventListener("mouseleave", () => {
+    parallaxItems.forEach((element) => {
+      element.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg)";
+    });
   });
-});
+}
 
 const statusColors = {
   online: "#43b581",
