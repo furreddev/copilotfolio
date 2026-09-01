@@ -46,6 +46,9 @@ const inspectorOutput = document.getElementById("inspectorOutput");
 let latestDiscordData = null;
 let inspectorRun = 0;
 let bootAwaitingEnter = false;
+const isTouchDevice = window.matchMedia("(pointer: coarse)").matches
+  || "ontouchstart" in window
+  || navigator.maxTouchPoints > 0;
 
 const BOOT_TOTAL_DURATION_MS = 10000;
 const BOOT_COMMANDS = [
@@ -107,6 +110,7 @@ function setupLinks() {
 setupLinks();
 
 function unlockMainSite() {
+  if (!bootAwaitingEnter) return;
   bootAwaitingEnter = false;
   page.classList.remove("boot-hidden");
   bootOverlay.classList.add("done");
@@ -131,6 +135,7 @@ async function runMainBoot() {
   }
 
   bootStatus.textContent = "Boot complete. Awaiting input.";
+  bootPrompt.textContent = isTouchDevice ? "Tap to continue" : "Press Enter to continue";
   bootPrompt.classList.remove("hidden");
   bootTerminal.scrollTop = bootTerminal.scrollHeight;
   bootAwaitingEnter = true;
@@ -322,7 +327,7 @@ let entered = [];
 let sequenceStart = null;
 
 window.addEventListener("keydown", (event) => {
-  if (bootAwaitingEnter && event.key === "Enter") {
+  if (!isTouchDevice && bootAwaitingEnter && event.key === "Enter") {
     unlockMainSite();
     return;
   }
@@ -349,3 +354,9 @@ window.addEventListener("keydown", (event) => {
     sequenceStart = key === "E" ? now : null;
   }
 });
+
+if (isTouchDevice) {
+  bootOverlay.addEventListener("pointerdown", () => {
+    unlockMainSite();
+  });
+}
