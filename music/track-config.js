@@ -1,4 +1,4 @@
 export const MUSIC_TRACK = {
-  displayName: "Sewer Creature - Zeroh",
+  displayName: "Shroomhaven Music Test.mp3",
   filename: "track.mp3"
 };
